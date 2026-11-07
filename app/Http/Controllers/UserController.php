@@ -5,6 +5,10 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\View\View;
 use App\Models\User;
+
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Validation\ValidationException;
+
 class UserController extends Controller
 {
     /**
@@ -81,4 +85,86 @@ public function index(Request $request)
 
     return redirect()->back()->with('success', 'تم حذف المستخدم');
 }
+
+
+public function apiRegister(Request $request)
+{
+    $request->merge([
+        'email' => strtolower(trim($request->email ?? '')),
+    ]);
+
+    $validator = \Illuminate\Support\Facades\Validator::make(
+        $request->all(),
+        [
+            'name' => 'required|string|max:255',
+            'email' => 'required|email|max:255|unique:login,email',
+            'password' => 'required|string|min:6',
+        ]
+    );
+
+    if ($validator->fails()) {
+        return response()->json([
+            'success' => false,
+            'message' => 'تأكد من صحة البيانات',
+            'errors' => $validator->errors(),
+        ], 422);
+    }
+
+    $user = User::create([
+        'name' => $request->name,
+        'email' => $request->email,
+        'password' => Hash::make($request->password),
+    ]);
+
+    $token = $user->createToken('flutter-app')->plainTextToken;
+
+    return response()->json([
+        'success' => true,
+        'message' => 'تم إنشاء الحساب بنجاح',
+        'user' => $user->only(['id', 'name', 'email']),
+        'token' => $token,
+    ], 201);
+}
+
+public function apiLogin(Request $request)
+{
+    $request->merge([
+        'email' => strtolower(trim($request->email ?? '')),
+    ]);
+
+    $validator = \Illuminate\Support\Facades\Validator::make(
+        $request->all(),
+        [
+            'email' => 'required|email',
+            'password' => 'required|string',
+        ]
+    );
+
+    if ($validator->fails()) {
+        return response()->json([
+            'success' => false,
+            'message' => 'يرجى إدخال Gmail وكلمة المرور',
+            'errors' => $validator->errors(),
+        ], 422);
+    }
+
+    $user = User::where('email', $request->email)->first();
+
+    if (!$user || !Hash::check($request->password, $user->password)) {
+        return response()->json([
+            'success' => false,
+            'message' => 'Gmail أو كلمة المرور غير صحيحة',
+        ], 401);
+    }
+
+    $token = $user->createToken('flutter-app')->plainTextToken;
+
+    return response()->json([
+        'success' => true,
+        'message' => 'تم تسجيل الدخول بنجاح',
+        'user' => $user->only(['id', 'name', 'email']),
+        'token' => $token,
+    ], 200);
+}
+
 }

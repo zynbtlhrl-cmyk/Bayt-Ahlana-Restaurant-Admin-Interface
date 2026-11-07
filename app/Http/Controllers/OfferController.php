@@ -14,6 +14,18 @@ class OfferController extends Controller
         return view('offers.index', compact('offers'));
     }
 
+            public function apiIndex()
+        {
+            $offers = \App\Models\Offer::where('active', true)
+                ->latest()
+                ->get();
+
+            return response()->json([
+                'success' => true,
+                'offers' => $offers
+            ]);
+        }
+
     public function create()
     {
         return view('offers.create');

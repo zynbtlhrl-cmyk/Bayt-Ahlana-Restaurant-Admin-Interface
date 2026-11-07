@@ -12,6 +12,10 @@ use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\SettingController;
 use App\Http\Controllers\DeliveryEmployeeController;
 
+
+
+Route::delete('/orders/deleteall', [OrderController::class, 'destroyAll'])
+    ->name('orders.destroyAll');
 // تسجيل الدخول
 
 Route::get('/login', [AdminAuthController::class, 'showLogin'])
@@ -36,7 +40,8 @@ Route::middleware('auth')->group(function () {
 
     Route::resource('users', UserController::class);
 
-    Route::resource('categories', CategoryController::class);
+Route::resource('categories', CategoryController::class)
+    ;
 
     Route::resource('offers', OfferController::class);
 

@@ -19,7 +19,7 @@
 
         body{
 
-            background: url('/images/logo.png') center center;
+            background: url('/images/image.jpeg') center center;
             background-size: cover;
 
             height: 100vh;
@@ -112,7 +112,7 @@
 
 <div class="login-card">
 
-    <img src="{{ asset('images/img.png') }}" class="logo">
+    <img src="{{ asset('images/logo.png') }}" class="logo">
 
     <h2>تسجيل دخول الأدمن</h2>
 @if (session('error'))

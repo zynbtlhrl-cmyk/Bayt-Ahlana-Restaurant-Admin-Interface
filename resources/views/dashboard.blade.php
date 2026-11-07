@@ -5,86 +5,37 @@
 
 <nav class="navbar bg-white shadow-sm rounded-4 p-3 mb-4 d-flex justify-content-between">
 
+    <!-- زر الإشعارات -->_
     <div class="position-relative">
 
-        <button class="btn btn-light rounded-circle"
-        data-bs-toggle="modal"
-        data-bs-target="#notificationsModal">
+        <button type="button"
+                class="btn btn-light rounded-circle"
+                data-bs-toggle="modal"
+                data-bs-target="#notificationsModal">
 
-    🔔
+            🔔
 
-    @if(\App\Models\Notification::where('is_read', false)->count() > 0)
+            @if(\App\Models\Notification::where('is_read', false)->count() > 0)
 
-        <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
+                <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
+                    {{ \App\Models\Notification::where('is_read', false)->count() }}
+                </span>
 
-           {{ \App\Models\Notification::where('is_read', false)->count() }}
+            @endif
 
-        </span>
-
-    @endif
-
-</button>
-        <!-- Modal الإشعارات -->
-<div class="modal fade" id="notificationsModal" tabindex="-1">
-
-    <div class="modal-dialog">
-
-        <div class="modal-content">
-
-            <div class="modal-header">
-
-                <h5 class="modal-title">🔔 الإشعارات</h5>
-
-                <button type="button"
-                        class="btn-close"
-                        data-bs-dismiss="modal">
-                </button>
-
-            </div>
-
-            <div class="modal-body">
-
-                @foreach(\App\Models\Notification::latest()->get() as $notification)
-
-                    @php
-                        $order = \App\Models\Order::find($notification->order_id);
-                    @endphp
-
-                    @if($order)
-
-                        <div class="border rounded p-3 mb-3">
-
-                            <p>
-                                👤 <strong>الاسم:</strong>
-                                {{ $order->customer_name }}
-                            </p>
-
-                            <p>
-                                🕒 <strong>وقت الطلب:</strong>
-                                {{ $order->created_at->format('Y/m/d - h:i A') }}
-                            </p>
-
-                        </div>
-
-                    @endif
-
-                @endforeach
-
-            </div>
-
-        </div>
+        </button>
 
     </div>
 
-</div>
 
-    </div>
-
+    <!-- بيانات المدير -->
     <div class="d-flex align-items-center gap-3">
 
         <div class="text-end">
 
-            <h6 class="m-0">أحمد المدير</h6>
+            <h6 class="m-0">
+                عباس المدير
+            </h6>
 
             <small class="text-muted">
                 مدير النظام
@@ -101,7 +52,103 @@
     </div>
 
 </nav>
-</nav>
+
+
+<!-- ========================= -->
+<!-- Modal الإشعارات -->
+<!-- ========================= -->
+
+<div class="modal fade"
+     id="notificationsModal"
+     tabindex="-1"
+     aria-labelledby="notificationsModalLabel"
+     aria-hidden="true">
+
+    <div class="modal-dialog modal-dialog-centered">
+
+        <div class="modal-content rounded-4">
+
+            <!-- رأس النافذة -->
+            <div class="modal-header position-relative"
+                 style="height:65px;">
+
+                <h5 class="modal-title w-100 text-center fw-bold"
+                    id="notificationsModalLabel">
+
+                    🔔 الإشعارات
+
+                </h5>
+
+                <!-- زر الإغلاق -->
+                <button type="button"
+                        class="btn-close"
+                        data-bs-dismiss="modal"
+                        aria-label="إغلاق"
+                        style="
+                            position:absolute;
+                            left:15px;
+                            top:50%;
+                            transform:translateY(-50%);
+                        ">
+                </button>
+
+            </div>
+
+
+            <!-- محتوى الإشعارات -->
+            <div class="modal-body">
+
+                @forelse(\App\Models\Notification::latest()->get() as $notification)
+
+                    @php
+                        $order = \App\Models\Order::find($notification->order_id);
+                    @endphp
+
+                    @if($order)
+
+                        <div class="border rounded-4 p-3 mb-3">
+
+                            <p class="mb-2">
+
+                                👤
+                                <strong>الاسم:</strong>
+
+                                {{ $order->customer_name }}
+
+                            </p>
+
+                            <p class="mb-0">
+
+                                🕒
+                                <strong>وقت الطلب:</strong>
+
+                                {{ $order->created_at->format('Y/m/d - h:i A') }}
+
+                            </p>
+
+                        </div>
+
+                    @endif
+
+                @empty
+
+                    <div class="text-center text-muted py-4">
+
+                        🔕 لا توجد إشعارات
+
+                    </div>
+
+                @endforelse
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+
     <style>
         body{
             background:#f5f6fa;
@@ -190,12 +237,7 @@
             </div>
         </div>
 
-        <div class="col-md-3">
-            <div class="card-box">
-                <h6>إجمالي المبيعات</h6>
-                <h2>12,560,000 </h2>
-            </div>
-        </div>
+ 
 
         <div class="col-md-3">
             <div class="card-box">
