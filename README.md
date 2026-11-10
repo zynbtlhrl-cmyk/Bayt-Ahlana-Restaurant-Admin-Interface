@@ -1,59 +1,288 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>بيت أهلنا - لوحة الإدارة</title>
 
-## About Laravel
+<style>
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+body {
+    font-family: Arial, sans-serif;
+    background: #f4f6fa;
+    color: #17243a;
+    padding: 25px 15px;
+}
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+.container {
+    max-width: 1150px;
+    margin: auto;
+}
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+header {
+    background: linear-gradient(135deg,#101c35,#29466e);
+    color: white;
+    padding: 38px 20px;
+    text-align: center;
+    border-radius: 18px;
+    margin-bottom: 30px;
+}
 
-## Learning Laravel
+header h1 {
+    font-size: 30px;
+    margin-bottom: 12px;
+}
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework. You can also check out [Laravel Learn](https://laravel.com/learn), where you will be guided through building a modern Laravel application.
+header p {
+    color: #d5dfed;
+    line-height: 1.8;
+}
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+.heading {
+    margin: 25px 0;
+    font-size: 22px;
+}
 
-## Laravel Sponsors
+.gallery {
+    display: grid;
+    grid-template-columns: repeat(2,1fr);
+    gap: 22px;
+}
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+.card {
+    background: white;
+    border-radius: 15px;
+    overflow: hidden;
+    box-shadow: 0 5px 20px #17243a12;
+    border: 1px solid #e7ebf1;
+    transition: .3s;
+}
 
-### Premium Partners
+.card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 25px #17243a20;
+}
 
-- **[Vehikl](https://vehikl.com)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Redberry](https://redberry.international/laravel-development)**
-- **[Active Logic](https://activelogic.com)**
+.photo {
+    height: 260px;
+    background: #e9edf3;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+}
 
-## Contributing
+.photo img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    cursor: pointer;
+}
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+.placeholder {
+    text-align: center;
+    color: #8792a4;
+    line-height: 2;
+}
 
-## Code of Conduct
+.placeholder span {
+    display: block;
+    font-size: 40px;
+}
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+.info {
+    padding: 20px;
+}
 
-## Security Vulnerabilities
+.info h3 {
+    color: #192e4d;
+    font-size: 19px;
+    margin-bottom: 9px;
+}
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+.info p {
+    color: #7d8796;
+    font-size: 14px;
+    line-height: 1.8;
+}
 
-## License
+footer {
+    text-align: center;
+    margin-top: 35px;
+    color: #929cac;
+    font-size: 13px;
+}
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+#viewer {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: #000e;
+    z-index: 100;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+}
+
+#viewer img {
+    max-width: 95%;
+    max-height: 90vh;
+    object-fit: contain;
+}
+
+#viewer button {
+    position: absolute;
+    top: 20px;
+    left: 25px;
+    background: white;
+    border: none;
+    padding: 10px 17px;
+    border-radius: 8px;
+    font-size: 20px;
+    cursor: pointer;
+}
+
+@media(max-width:650px) {
+    .gallery {
+        grid-template-columns: 1fr;
+    }
+
+    header h1 {
+        font-size: 24px;
+    }
+
+    .photo {
+        height: 220px;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+<header>
+    <h1>بيت أهلنا</h1>
+    <p>نظام الإدارة والتحكم بالمنصة الإلكترونية</p>
+</header>
+
+<h2 class="heading">واجهات نظام الإدارة</h2>
+
+<div class="gallery">
+
+    <div class="card">
+        <div class="photo">
+            <div class="placeholder">
+                <span>🔐</span>
+                مكان صورة تسجيل الدخول
+            </div>
+        </div>
+        <div class="info">
+            <h3>01 - تسجيل دخول الأدمن</h3>
+            <p>واجهة الدخول إلى النظام الإداري.</p>
+        </div>
+    </div>
+
+    <div class="card">
+        <div class="photo">
+            <div class="placeholder">
+                <span>🏠</span>
+                مكان صورة الصفحة الرئيسية
+            </div>
+        </div>
+        <div class="info">
+            <h3>02 - الصفحة الرئيسية</h3>
+            <p>الواجهة الرئيسية لنظام إدارة بيت أهلنا.</p>
+        </div>
+    </div>
+
+    <div class="card">
+        <div class="photo">
+            <div class="placeholder">
+                <span>📂</span>
+                مكان صورة إدارة الأقسام
+            </div>
+        </div>
+        <div class="info">
+            <h3>03 - إدارة الأقسام</h3>
+            <p>إضافة وتعديل وحذف أقسام المطعم.</p>
+        </div>
+    </div>
+
+    <div class="card">
+        <div class="photo">
+            <div class="placeholder">
+                <span>👥</span>
+                مكان صورة إدارة المستخدمين
+            </div>
+        </div>
+        <div class="info">
+            <h3>04 - إدارة المستخدمين</h3>
+            <p>عرض وإدارة حسابات المستخدمين.</p>
+        </div>
+    </div>
+
+    <div class="card">
+        <div class="photo">
+            <div class="placeholder">
+                <span>🛒</span>
+                مكان صورة إدارة الطلبات
+            </div>
+        </div>
+        <div class="info">
+            <h3>05 - إدارة الطلبات</h3>
+            <p>متابعة الطلبات وحالات تجهيزها وتسليمها.</p>
+        </div>
+    </div>
+
+    <div class="card">
+        <div class="photo">
+            <div class="placeholder">
+                <span>📊</span>
+                مكان صورة لوحة التحكم
+            </div>
+        </div>
+        <div class="info">
+            <h3>06 - لوحة التحكم والإحصائيات</h3>
+            <p>متابعة المبيعات والإحصائيات وأداء المنصة.</p>
+        </div>
+    </div>
+
+</div>
+
+<footer>
+    جميع الحقوق محفوظة © بيت أهلنا
+</footer>
+
+</div>
+
+<div id="viewer" onclick="closeImage()">
+    <button onclick="closeImage()">✕</button>
+    <img id="largeImage" src="" alt="صورة مكبرة">
+</div>
+
+<script>
+function closeImage() {
+    document.getElementById("viewer").style.display = "none";
+}
+
+document.querySelectorAll(".photo").forEach(function(box) {
+    box.addEventListener("click", function() {
+        const img = box.querySelector("img");
+        if (!img) return;
+
+        document.getElementById("largeImage").src = img.src;
+        document.getElementById("viewer").style.display = "flex";
+    });
+});
+</script>
+
+</body>
+</html>
